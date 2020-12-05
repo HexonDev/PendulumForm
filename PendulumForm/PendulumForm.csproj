@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -141,13 +141,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\create.sql" />
-    <Content Include="Resources\rots.jpg" />
-    <Content Include="Resources\mail.jpg" />
-    <Content Include="Resources\wion.jpg" />
-    <Content Include="Resources\oof1.jpg" />
-    <Content Include="Resources\pnd1.jpg" />
-    <Content Include="Resources\pnd3.jpg" />
-    <Content Include="Resources\pnd2.jpg" />
     <Content Include="Resources\music.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -155,6 +148,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>music.mdf</DependentUpon>
     </Content>
+    <Content Include="Resources\rots.jpg" />
+    <Content Include="Resources\mail.jpg" />
+    <Content Include="Resources\wion.jpg" />
+    <Content Include="Resources\oof1.jpg" />
+    <Content Include="Resources\pnd1.jpg" />
+    <Content Include="Resources\pnd3.jpg" />
+    <Content Include="Resources\pnd2.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
