@@ -26,7 +26,13 @@ namespace PendulumForm
 
         private void DiscographyForm_Load(object sender, EventArgs e)
         {
-            Database.Init(false);
+            DialogResult result = MessageBox.Show($"Szeretnéd törölni a jelenlegi diszkográfiai aatokat?",
+                "Törlés",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            Database.Init(result == DialogResult.Yes);
             ReloadData();
         }
 

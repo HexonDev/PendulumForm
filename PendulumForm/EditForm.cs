@@ -20,15 +20,24 @@ namespace PendulumForm
 
         private void okBTN_Click(object sender, EventArgs e)
         {
-            try
+            DialogResult result = MessageBox.Show($"Biztosan szeretnéd szerkesztenini a jelenlegi diszkográfiai adatot?",
+                "Szerkesztés",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
             {
-                length = TimeSpan.Parse(lengthTB.Text);
-                this.DialogResult = DialogResult.OK;
-            }
-            catch (Exception exception)
-            {
-                this.DialogResult = DialogResult.Cancel;
-                MessageBox.Show(exception.Message);
+                try
+                {
+                    length = TimeSpan.Parse(lengthTB.Text);
+                    this.DialogResult = DialogResult.OK;
+                }
+                catch (Exception exception)
+                {
+                    this.DialogResult = DialogResult.Cancel;
+                    MessageBox.Show(exception.Message);
+                }
             }
         }
     }
