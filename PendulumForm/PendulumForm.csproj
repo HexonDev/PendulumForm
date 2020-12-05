@@ -140,6 +140,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\create.sql" />
     <Content Include="Resources\rots.jpg" />
     <Content Include="Resources\mail.jpg" />
     <Content Include="Resources\wion.jpg" />
