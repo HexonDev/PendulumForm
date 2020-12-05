@@ -53,6 +53,17 @@ namespace PendulumForm
             artists = Artist.LoadAllFromDatabase();
             tracks = Track.LoadAllFromDatabase();
 
+            albumCB.SelectedText = String.Empty;
+            albumCB.SelectedIndex = -1;
+            albumCB.Text = String.Empty;
+
+            tracksDGV.Rows.Clear();
+            addUrlBTN.Enabled = false;
+            editBTN.Enabled = false;
+            searchTB.Enabled = false;
+            coverPB.Image = null;
+            linkLBL.Text = String.Empty;
+
             artistCB.Items.Clear();
             foreach (var artist in artists)
             {
@@ -62,6 +73,9 @@ namespace PendulumForm
 
         private void artistCB_SelectedIndexChanged(object sender, EventArgs e)
         {
+            coverPB.Image = null;
+            detailsRTB.Text = String.Empty;
+
             selectedAlbums = Album.GetAlbumsByArtistName(artistCB.Text, albums);
 
             albumCB.Items.Clear();
@@ -73,7 +87,15 @@ namespace PendulumForm
             albumCB.SelectedText = String.Empty;
             albumCB.SelectedIndex = -1;
             albumCB.Text = String.Empty;
-            
+
+            tracksDGV.Rows.Clear();
+            addUrlBTN.Enabled = false;
+            editBTN.Enabled = false;
+
+            if (tracksDGV.RowCount > 0)
+                searchTB.Enabled = true;
+            else
+                searchTB.Enabled = false;
         }
 
         
@@ -90,39 +112,91 @@ namespace PendulumForm
             }
 
             detailsRTB.Text = $"Kiadási dátum: {selectedAlbum.Release.ToString("yyyy. MMMM dd.")}\n" +
-                              $"Teljes hossz: {fullLength.ToString("h'h 'm'm 's's'")}";
+                              $"Teljes hossz: {fullLength.ToString()}";
 
 
             tracksDGV.Rows.Clear();
             foreach (var track in selectedTracks)
             {
-                tracksDGV.Rows.Add(track.Title, track.Length.ToString("h'h 'm'm 's's'"));
+                tracksDGV.Rows.Add(track.Title, track.Length.ToString());
             }
 
             coverPB.Image = (Image)Resources.ResourceManager.GetObject(selectedAlbum.Id);
+
+            if (tracksDGV.RowCount > 0)
+                searchTB.Enabled = true;
+            else
+                searchTB.Enabled = false;
         }
 
-        private void tracksDGV_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
+
+        private void addUrlBTN_Click(object sender, EventArgs e)
         {
-            if (albumCB.SelectedIndex > 0)
+            LinkForm linkForm = new LinkForm();
+
+            if (linkForm.ShowDialog() == DialogResult.OK)
             {
-                if (tracksDGV.CurrentRow?.Cells[0].Value != null)
-                {
-                    string trackTitle = tracksDGV.CurrentRow.Cells[0].Value.ToString();
-                    var track = Track.GetTrackByTitle(trackTitle, tracks);
+                string trackTitle = tracksDGV.CurrentRow.Cells[0].Value.ToString();
+                var track = Track.GetTrackByTitle(trackTitle, tracks);
 
-                    if (track.TinyURL == "null")
-                    {
-                        linkLBL.Text = String.Empty;
-                    }
-                    else
-                    {
-                        linkLBL.Text = "https://youtu.be/" + track.TinyURL;
-                    }
-                }
+                track.TinyURL = linkForm.URL;
+                linkLBL.Text = "https://youtu.be/" + track.TinyURL;
+                track.SaveToDatabase();
 
+                linkForm.Close();
             }
-            
+
+            linkForm.Dispose();
+        }
+
+        private void tracksDGV_SelectionChanged(object sender, EventArgs e)
+        {
+            string trackTitle = tracksDGV.CurrentRow.Cells[0].Value.ToString();
+            var track = Track.GetTrackByTitle(trackTitle, tracks);
+
+            if (track?.TinyURL == "null")
+            {
+                linkLBL.Text = String.Empty;
+            }
+            else
+            {
+                linkLBL.Text = "https://youtu.be/" + track?.TinyURL;
+            }
+
+            editBTN.Enabled = true;
+            addUrlBTN.Enabled = true;
+        }
+
+        private void editBTN_Click(object sender, EventArgs e)
+        {
+            EditForm editForm = new EditForm();
+
+            string trackTitle = tracksDGV.CurrentRow.Cells[0].Value.ToString();
+            var track = Track.GetTrackByTitle(trackTitle, tracks);
+
+            editForm.urlTB.Text = track.TinyURL;
+            editForm.albumTB.Text = track.AlbumId;
+            editForm.lengthTB.Text = track.Length.ToString();
+            editForm.titleTB.Text = track.Title;
+
+            if (editForm.ShowDialog() == DialogResult.OK)
+            {
+                
+
+                track.Length = editForm.length;
+                track.Title = editForm.titleTB.Text;
+                track.AlbumId = editForm.albumTB.Text;
+                track.TinyURL = editForm.urlTB.Text;
+
+                track.SaveToDatabase();
+
+                ReloadData();
+
+
+                editForm.Close();
+            }
+
+            editForm.Dispose();
         }
     }
 }

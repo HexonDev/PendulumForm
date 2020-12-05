@@ -35,15 +35,15 @@
             this.searchTB = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tracksDGV = new System.Windows.Forms.DataGridView();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Length = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.coverPB = new System.Windows.Forms.PictureBox();
             this.detailsRTB = new System.Windows.Forms.RichTextBox();
-            this.linkLBL = new System.Windows.Forms.Label();
             this.addBTN = new System.Windows.Forms.Button();
             this.addUrlBTN = new System.Windows.Forms.Button();
             this.editBTN = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Length = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.linkLBL = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.tracksDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.coverPB)).BeginInit();
             this.SuspendLayout();
@@ -86,6 +86,7 @@
             // 
             // searchTB
             // 
+            this.searchTB.Enabled = false;
             this.searchTB.Location = new System.Drawing.Point(12, 97);
             this.searchTB.Name = "searchTB";
             this.searchTB.Size = new System.Drawing.Size(301, 20);
@@ -102,6 +103,11 @@
             // 
             // tracksDGV
             // 
+            this.tracksDGV.AllowUserToAddRows = false;
+            this.tracksDGV.AllowUserToDeleteRows = false;
+            this.tracksDGV.AllowUserToOrderColumns = true;
+            this.tracksDGV.AllowUserToResizeColumns = false;
+            this.tracksDGV.AllowUserToResizeRows = false;
             this.tracksDGV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Title,
             this.Length});
@@ -112,7 +118,21 @@
             this.tracksDGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tracksDGV.Size = new System.Drawing.Size(301, 298);
             this.tracksDGV.TabIndex = 6;
-            this.tracksDGV.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.tracksDGV_RowStateChanged);
+            this.tracksDGV.SelectionChanged += new System.EventHandler(this.tracksDGV_SelectionChanged);
+            // 
+            // Title
+            // 
+            this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Title.HeaderText = "Title";
+            this.Title.Name = "Title";
+            this.Title.ReadOnly = true;
+            // 
+            // Length
+            // 
+            this.Length.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Length.HeaderText = "Length";
+            this.Length.Name = "Length";
+            this.Length.ReadOnly = true;
             // 
             // coverPB
             // 
@@ -131,14 +151,6 @@
             this.detailsRTB.TabIndex = 8;
             this.detailsRTB.Text = "";
             // 
-            // linkLBL
-            // 
-            this.linkLBL.AutoSize = true;
-            this.linkLBL.Location = new System.Drawing.Point(466, 329);
-            this.linkLBL.Name = "linkLBL";
-            this.linkLBL.Size = new System.Drawing.Size(0, 13);
-            this.linkLBL.TabIndex = 9;
-            // 
             // addBTN
             // 
             this.addBTN.Location = new System.Drawing.Point(397, 381);
@@ -151,21 +163,25 @@
             // 
             // addUrlBTN
             // 
+            this.addUrlBTN.Enabled = false;
             this.addUrlBTN.Location = new System.Drawing.Point(521, 381);
             this.addUrlBTN.Name = "addUrlBTN";
             this.addUrlBTN.Size = new System.Drawing.Size(118, 40);
             this.addUrlBTN.TabIndex = 11;
             this.addUrlBTN.Text = "Add URL";
             this.addUrlBTN.UseVisualStyleBackColor = true;
+            this.addUrlBTN.Click += new System.EventHandler(this.addUrlBTN_Click);
             // 
             // editBTN
             // 
+            this.editBTN.Enabled = false;
             this.editBTN.Location = new System.Drawing.Point(645, 381);
             this.editBTN.Name = "editBTN";
             this.editBTN.Size = new System.Drawing.Size(118, 40);
             this.editBTN.TabIndex = 12;
             this.editBTN.Text = "Edit Selected";
             this.editBTN.UseVisualStyleBackColor = true;
+            this.editBTN.Click += new System.EventHandler(this.editBTN_Click);
             // 
             // label4
             // 
@@ -176,30 +192,24 @@
             this.label4.TabIndex = 13;
             this.label4.Text = "URL (if any):";
             // 
-            // Title
+            // linkLBL
             // 
-            this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Title.HeaderText = "Title";
-            this.Title.Name = "Title";
-            this.Title.ReadOnly = true;
-            // 
-            // Length
-            // 
-            this.Length.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Length.HeaderText = "Length";
-            this.Length.Name = "Length";
-            this.Length.ReadOnly = true;
+            this.linkLBL.AutoSize = true;
+            this.linkLBL.Location = new System.Drawing.Point(460, 329);
+            this.linkLBL.Name = "linkLBL";
+            this.linkLBL.Size = new System.Drawing.Size(0, 13);
+            this.linkLBL.TabIndex = 14;
             // 
             // DiscographyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(775, 433);
+            this.Controls.Add(this.linkLBL);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.editBTN);
             this.Controls.Add(this.addUrlBTN);
             this.Controls.Add(this.addBTN);
-            this.Controls.Add(this.linkLBL);
             this.Controls.Add(this.detailsRTB);
             this.Controls.Add(this.coverPB);
             this.Controls.Add(this.tracksDGV);
@@ -230,13 +240,13 @@
         private System.Windows.Forms.DataGridView tracksDGV;
         private System.Windows.Forms.PictureBox coverPB;
         private System.Windows.Forms.RichTextBox detailsRTB;
-        private System.Windows.Forms.Label linkLBL;
         private System.Windows.Forms.Button addBTN;
         private System.Windows.Forms.Button addUrlBTN;
         private System.Windows.Forms.Button editBTN;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Title;
         private System.Windows.Forms.DataGridViewTextBoxColumn Length;
+        private System.Windows.Forms.LinkLabel linkLBL;
     }
 }
 

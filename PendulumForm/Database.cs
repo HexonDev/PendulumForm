@@ -29,7 +29,6 @@ namespace PendulumForm
             }
             catch (Exception e)
             {
-                //MessageBox.Show("Hiba az SqlConnection létrehozásánál: " + e.Message);
                 Error.Show(e);
                 throw;
             }
