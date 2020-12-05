@@ -147,6 +147,7 @@
             // 
             this.detailsRTB.Location = new System.Drawing.Point(494, 123);
             this.detailsRTB.Name = "detailsRTB";
+            this.detailsRTB.ReadOnly = true;
             this.detailsRTB.Size = new System.Drawing.Size(268, 150);
             this.detailsRTB.TabIndex = 8;
             this.detailsRTB.Text = "";
